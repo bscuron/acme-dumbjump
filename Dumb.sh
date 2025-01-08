@@ -12,9 +12,9 @@ in_git_repo() {
 get_grepprg() {
 	gitrepo=$(in_git_repo)
 	if [ -z "$gitrepo" ]; then
-		echo "git grep -nP"
-	else
 		echo "find . -type f | xargs grep -nE"
+	else
+		echo "git grep -nP"
 	fi
 }
 
@@ -28,7 +28,6 @@ file_path=$(9p read "acme/$winid/tag" | paste -sd '\0' - | cut -d ' ' -f1)
 file_name=$(basename "$file_path")
 grepprg=$(get_grepprg)
 
-
 case "$file_name" in
 	# Shell
 	*.sh)
@@ -38,7 +37,6 @@ case "$file_name" in
 		;;
 	# Javascript
 	*.js|*.jsx|*.html|*.css)
-		echo testing
 		eval "$grepprg \"(service|factory)\\(['\']$selection['\']\""
 		eval "$grepprg \"\b$selection\s*[=:]\s*\\([^\\)]*\\)\s+=>\""
 		eval "$grepprg \"\b$selection\s*\([^()]*\)\s*[{]\""
@@ -55,5 +53,11 @@ case "$file_name" in
 		eval "$grepprg \"^\s*(?:[\w\[\]]+\s+){1,3}$selection\s*\\(\""
 		eval "$grepprg \"\s*\b$selection\s*=[^=\n)]+\""
 		eval "$grepprg \"(class|interface)\s*$selection\b\""
+		;;
+	# Python
+	*.py)
+		eval "$grepprg \"\s*\b$selection\s*=[^=\n]+\""
+		eval "$grepprg \"def\s*$selection\b\s*\\(\""
+		eval "$grepprg \"class\s*$selection\b\s*\\(?\""
 		;;
 esac
