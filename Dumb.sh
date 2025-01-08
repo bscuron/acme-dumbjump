@@ -60,4 +60,15 @@ case "$file_name" in
 		eval "$grepprg \"def\s*$selection\b\s*\\(\""
 		eval "$grepprg \"class\s*$selection\b\s*\\(?\""
 		;;
+	# C/C++
+	*.c|*.h|*.C|*.H|*.tpp|*.cpp|*.hpp|*.cxx|*.hxx|*.cc|*.hh|*.c++|*.h++)
+		eval "$grepprg \"\b$selection(\s|\))*\((\w|[,&*.<>:]|\s)*(\))\s*(const|->|\{|$)|typedef\s+(\w|[(*]|\s)+$selection(\)|\s)*\(\""
+		eval "$grepprg \"(\b\w+|[,>])([*&]|\s)+$selection\s*(\[([0-9]|\s)*\])*\s*([=,){;]|:\s*[0-9])|#define\s+$selection\b\""
+		eval "$grepprg \"\b(?!(class\b|struct\b|return\b|else\b|delete\b))(\w+|[,>])([*&]|\s)+$selection\s*(\[(\d|\s)*\])*\s*([=,(){;]|:\s*\d)|#define\s+$selection\b\""
+		eval "$grepprg \"\b(class|struct|enum|union)\b\s*$selection\b\s*(final\s*)?(:((\s*\w+\s*::)*\s*\w*\s*<?(\s*\w+\s*::)*\w+>?\s*,*)+)?((\{|$))|}\s*$selection\b\s*;\""
+		;;
+	# Default
+	*)
+		eval "$grepprg \"$selection\""
+		;;
 esac
