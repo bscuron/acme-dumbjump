@@ -50,6 +50,10 @@ case "$file_name" in
 		eval "$grepprg \"\b$selection\s*:\s*function\s*\\(\""
 		eval "$grepprg \"\b$selection\s*=\s*function\s*\\(\""
 		;;
-	*)
-		eval "$grepprg \"$selection\""
+	# C#/Java/Salesforce Apex
+	*.cs|*.java|*.cls|*.apex|*.trigger)
+		eval "$grepprg \"^\s*(?:[\w\[\]]+\s+){1,3}$selection\s*\\(\""
+		eval "$grepprg \"\s*\b$selection\s*=[^=\n)]+\""
+		eval "$grepprg \"(class|interface)\s*$selection\b\""
+		;;
 esac
