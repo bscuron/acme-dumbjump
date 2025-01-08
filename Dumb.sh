@@ -68,6 +68,19 @@ case "$file_name" in
 		eval "$grepprg \"\b(?!(class\b|struct\b|return\b|else\b|delete\b))(\w+|[,>])([*&]|\s)+$selection\s*(\[(\d|\s)*\])*\s*([=,(){;]|:\s*\d)|#define\s+$selection\b\""
 		eval "$grepprg \"\b(class|struct|enum|union)\b\s*$selection\b\s*(final\s*)?(:((\s*\w+\s*::)*\s*\w*\s*<?(\s*\w+\s*::)*\w+>?\s*,*)+)?((\{|$))|}\s*$selection\b\s*;\""
 		;;
+	# Rust
+	*.rs)
+		eval "$grepprg \"(if|while)\\s+let\\s+([^=\\n]+)?(mut\\s+)?$selection([^=\\n\\\(]+)?\\s*=\\s*[^=\\n]+\""
+		eval "$grepprg \"struct\s+[^\n{]+[{][^}]*(\s*$selection\s*:\s*[^\n},]+)[^}]*}\""
+		eval "$grepprg \"enum\s+[^\n{]+\s*[{][^}]*\b$selection\b[^}]*}\""
+		eval "$grepprg \"\bfn\s+$selection\s*\\(\""
+		eval "$grepprg \"\bmacro_rules!\s+$selection\""
+		eval "$grepprg \"struct\s+$selection\s*[{\\(]?\""
+		eval "$grepprg \"trait\s+$selection\s*[{]?\""
+		eval "$grepprg \"\btype\s+$selection([^=\n]+)?\s*=[^=\n]+;\""
+		eval "$grepprg \"impl\s+((\w+::)*\w+\s+for\s+)?(\w+::)*$selection\s+[{]?\""
+		eval "$grepprg \"mod\s+$selection\s*[{]?\""
+		;;
 	# Default
 	*)
 		eval "$grepprg \"$selection\""
