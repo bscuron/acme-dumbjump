@@ -26,6 +26,7 @@ fi
 
 file_path=$(9p read "acme/$winid/tag" | paste -sd '\0' - | cut -d ' ' -f1)
 file_name=$(basename "$file_path")
+file_extension="${file_name##*.}"
 grepprg=$(get_grepprg)
 
 case "$file_name" in
