@@ -2,16 +2,16 @@
 
 in_git_repo() {
 	if [ -d .git ]; then
-		echo 0
+		echo ".git"
 	else
 		git rev-parse --git-dir 2>/dev/null
-		echo $?
 	fi
+	# Not in git repo
 }
 
 get_grepprg() {
 	gitrepo=$(in_git_repo)
-	if [ "$gitrepo" -eq 0 ]; then
+	if [ -z "$gitrepo" ]; then
 		echo "git grep -nP"
 	else
 		echo "find . -type f | xargs grep -nE"
