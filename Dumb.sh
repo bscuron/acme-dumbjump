@@ -81,6 +81,14 @@ case "$file_name" in
 		eval "$grepprg \"impl\s+((\w+::)*\w+\s+for\s+)?(\w+::)*$selection\s+[{]?\""
 		eval "$grepprg \"mod\s+$selection\s*[{]?\""
 		;;
+	# Go
+	*.go)
+		eval "$grepprg \"\s*\b$selection\s*=[^=\n]+\""
+		eval "$grepprg \"\s*\b$selection\s*:=\s*\""
+		eval "$grepprg \"func\s+\\([^\\)]*\\)\s+$selection\s*\\(\""
+		eval "$grepprg \"func\s+$selection\s*\\(\""
+		eval "$grepprg \"type\s+$selection\s+struct\s+\\{\""
+		;;
 	# Default
 	*)
 		eval "$grepprg \"$selection\""
